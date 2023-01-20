@@ -20,6 +20,7 @@ ls -la
 
 docker-compose up --build -d
 
+docker exec -ti php composer install
 docker exec -ti php php artisan migrate
 docker exec -ti php php artisan db:seed
 docker exec -ti php php artisan key:generate
