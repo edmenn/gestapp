@@ -27,6 +27,5 @@ docker exec -ti php php artisan migrate
 docker exec -ti php php artisan db:seed
 docker exec -ti php php artisan key:generate
 docker exec -ti php php artisan storage:link
-docker exec -ti php php -S localhost:8000 server.php 
 
 
