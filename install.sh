@@ -3,6 +3,8 @@ apt install docker
 apt install docker-compose
 
 git clone https://bitbucket.org/edmenn/gestapp.git
+mkdir /var/www/
+mkdir /var/www/html
 mv gestapp/* /var/www/html
 cp installer/.env /var/www/html/
 mv * /var/www/html/
