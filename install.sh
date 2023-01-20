@@ -1,6 +1,6 @@
 #!/bin/bash
-apt install docker /y
-apt install docker-compose /y
+apt install docker
+apt install docker-compose
 
 git clone https://bitbucket.org/edmenn/gestapp.git
 mkdir /var/www/
