@@ -33,6 +33,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: php
+    restart: always
     volumes:
       - /var/www/html/:/var/www/html
     ports:
