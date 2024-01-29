@@ -1,28 +1,52 @@
 #!/bin/bash
-apt install docker
-apt install docker-compose
 
-mkdir /var/www/html
-cd /var/www/html/
+# Verificar si Docker está instalado
+if ! command -v docker &>/dev/null; then
+    apt install docker
+fi
+
+# Verificar si Docker Compose está instalado
+if ! command -v docker-compose &>/dev/null; then
+    apt install docker-compose
+fi
+
+# Directorio de trabajo
+working_dir="/var/www/html"
+app_dir="${working_dir}/gestapp"
+installer_dir="/home/gestapp/installer"
+
+# Crear directorio si no existe
+mkdir -p "${working_dir}"
+
+# Clonar el repositorio
+cd "${working_dir}"
 git clone https://bitbucket.org/edmenn/gestapp.git
-cp /home/gestapp/installer/.env /var/www/html/gestapp/
 
-chmod 777 -R /var/www/html/gestapp/
+# Copiar el archivo .env
+cp "${installer_dir}/.env" "${app_dir}"
 
-cd /var/www/html/gestapp/
+# Cambiar permisos adecuados (ajusta según tus necesidades)
+chmod -R 755 "${app_dir}"
 
-docker run --rm -v  $(pwd):/app composer install
+# Ejecutar Composer en un contenedor Docker
+docker run --rm -v "$(pwd):/app" composer install
 
-cd "$(dirname "$0")"/installer
+# Cambiar al directorio del instalador
+cd "${installer_dir}"
 
-ls -la
-
+# Iniciar Docker Compose
 docker-compose up --build -d
 
-docker exec -ti php composer install
-docker exec -ti php php artisan migrate
-docker exec -ti php php artisan db:seed
-docker exec -ti php php artisan key:generate
-docker exec -ti php php artisan storage:link
+# Definir función para ejecutar comandos de Docker
+docker_exec() {
+    docker exec -ti php "$@"
+}
 
+# Instalar dependencias en el contenedor de PHP
+docker_exec composer install
 
+# Ejecutar migraciones y otros comandos de Artisan
+docker_exec php artisan migrate
+docker_exec php artisan db:seed
+docker_exec php artisan key:generate
+docker_exec php artisan storage:link
