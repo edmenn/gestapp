@@ -3,17 +3,17 @@ apt install docker
 apt install docker-compose
 
 mkdir /var/www/html
-cd /var/www/html/gestapp/
+cd /var/www/html/
 git clone https://bitbucket.org/edmenn/gestapp.git
-cp installer/.env /var/www/html/gestapp/
+cp /home/gestapp/installer/.env /var/www/html/gestapp/
 
-chmod 777 -R /var/www/html/
+chmod 777 -R /var/www/html/gestapp/
 
 cd /var/www/html/gestapp/
 
 docker run --rm -v  $(pwd):/app composer install
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")"/installer
 
 ls -la
 
