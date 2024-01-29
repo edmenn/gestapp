@@ -13,7 +13,7 @@ cd /var/www/html/gestapp/
 
 docker run --rm -v  $(pwd):/app composer install
 
-cd "$(dirname "$0")"/installer
+cd /home/gestapp/installer
 
 ls -la
 
